@@ -1,10 +1,14 @@
 import React from "react";
-import "react-table-v6/react-table.css";
-import ReactTable from "react-table-v6";
 import { useEffect, useMemo, useState } from "react";
+
 import axios from "axios";
+import ReactTable from "react-table-v6";
 import moment from "moment";
+import "react-table-v6/react-table.css";
+
 import { getTasks } from "../assets/utils/index";
+import leftCorner from "../assets/images/homepage/l-corner.png";
+import rightCorner from "../assets/images/homepage/r-corner.png";
 
 const DayView = () => {
   const [tasks, setTasks] = useState([]);
@@ -117,20 +121,35 @@ const DayView = () => {
   }, []);
 
   return (
-    <div className="container mx-auto">
-      {tasks && (
-        <div className="bg-white">
-          <ReactTable
-            data={tasks}
-            columns={columns}
-            filterable
-            showPagination={true}
-            defaultPageSize={10}
-            resizable={false}
-          />
-        </div>
-      )}
-      {!tasks && <div>Loading........ </div>}
+    <div
+      className="bg-white flex flex-col items-center"
+      style={{ height: "calc(100vh - 112px)" }}
+    >
+      <div className="montserrat grey-10 text-6xl font-semibold my-16">
+        Today's Appointment Details
+      </div>
+
+      <div className="container mx-auto relative z-10">
+        {tasks && (
+          <div className="bg-white h-full">
+            <ReactTable
+              data={tasks}
+              columns={columns}
+              filterable
+              showPagination={true}
+              defaultPageSize={10}
+              resizable={false}
+            />
+          </div>
+        )}
+        {!tasks && <div>Loading........ </div>}
+      </div>
+      <div className="hidden md:block absolute -left-4" style={{ top: "60%" }}>
+        <img src={leftCorner} alt="left corner" />
+      </div>
+      <div className="hidden md:block absolute right-0 bottom-0">
+        <img src={rightCorner} alt="right corner" />
+      </div>
     </div>
   );
 };

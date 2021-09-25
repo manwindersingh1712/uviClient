@@ -5,8 +5,7 @@ import { withRouter } from "react-router-dom";
 const Navbar = (props) => {
   const { history } = props;
   return (
-    <div className="border-b-2 border-solid border-gray-300">
-      {/* <div className="mx-4 py-2 md:mx-8 md:py-4"> */}
+    <div className="border-b-2 border-solid border-gray-300 h-28">
       <div className="container mx-auto flex justify-between items-center">
         <div
           className="w-14 md:w-24 py-4 cursor-pointer"
