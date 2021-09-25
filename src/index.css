@@ -1,13 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400&display=swap');
+
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    background-color: #fef2f2;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.montserrat {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.grey-10 {
+    color: rgb(75, 75, 109);
+}
+
+.bg-grey-10 {
+    background-color: #373750;
+
+}
+
+.input-task {
+    width: 400px;
+    padding: 10px;
+    font-size: 17px;
+    background-color: transparent;
+    border-bottom: 3px solid transparent;
+    padding-left: 0;
+    transition: border 500ms ease;
+    margin: 10px 0;
+
+}
+
+.input-task:focus {
+    border-color: #f5735a;
+}
+
+.table-column {
+    font-size: 14px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+    align-self: center;
 }
