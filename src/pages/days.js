@@ -135,10 +135,10 @@ const DayView = () => {
 
   return (
     <div
-      className="bg-white flex flex-col items-center py-8 md:py-16"
+      className="bg-white flex flex-col items-center py-8 md:py-0"
       style={{ minHeight: "calc(100vh - 112px)" }}
     >
-      <div className="montserrat grey-10 text-3xl md:text-6xl font-semibold mb-14 text-center">
+      <div className="montserrat grey-10 text-3xl md:text-6xl font-semibold mb-14 text-center mt-10">
         Today's Appointment Details
       </div>
 

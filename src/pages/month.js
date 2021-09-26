@@ -53,10 +53,10 @@ const MonthView = () => {
 
   return (
     <div
-      className="bg-white flex flex-col items-center py-8 md:py-16 px-10 md:px-0"
+      className="bg-white flex flex-col items-center py-8 md:py-0 px-10 md:px-0"
       style={{ minHeight: "calc(100vh - 112px)" }}
     >
-      <div className="montserrat grey-10 text-3xl md:text-6xl font-semibold text-center">
+      <div className="montserrat grey-10 text-3xl md:text-6xl font-semibold text-center md:mt-10">
         Monthly View
       </div>
 

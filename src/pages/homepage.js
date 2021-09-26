@@ -5,11 +5,11 @@ import Form from "../components/form";
 const HomePage = () => {
   return (
     <div className="overflow-x-hidden">
-      <div className="container flex flex-col justify-around md:flex-row my-10 md:my-20 mx-auto">
-        <div className="relative z-10 w-4/4">
+      <div className="container flex flex-col justify-around md:flex-row my-10 md:my-0 mx-auto">
+        <div className="relative z-10 w-4/4 mt-10">
           <Form />
         </div>
-        <div className="relative z-10 w-4/5 md:w-1/3 ml-24 mt-5 md:m-0">
+        <div className="relative z-10 w-4/5 md:w-1/3 ml-24 mt-5">
           <MyCarousel />
         </div>
       </div>
