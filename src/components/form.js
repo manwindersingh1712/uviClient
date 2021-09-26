@@ -9,6 +9,11 @@ import {
 import cogoToast from "cogo-toast";
 import Axios from "axios";
 
+import { AppointmentType, ENV_VARS } from "../assets/utils/enums";
+
+const { API } = ENV_VARS;
+const { FITNESS, NUTRITION, DOCTOR } = AppointmentType;
+
 const Form = () => {
   const [appointmentName, setAppointmentName] = useState("");
   const [name, setName] = useState("");
@@ -18,32 +23,32 @@ const Form = () => {
 
   const formRef = useRef();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!appointmentName || !name || !appointmentType || !time || !date) {
       cogoToast.warn("Please enter all the fields!!");
       return;
     }
 
-    Axios.post("http://localhost:4000/task/add", {
-      appointmentName,
-      personName: name,
-      appointmentType,
-      date,
-      time,
-    })
-      .then((res) => {
-        setAppointmentName("");
-        setName("");
-        setAppointmentType("");
-        setDate(new Date());
-        setTime(new Date(0, 0, 0, 12, 0));
-        formRef.current.focus();
-        cogoToast.info("Task Added Successfully!!");
-      })
-      .catch((err) => {
-        console.log(err);
+    try {
+      const responseData = await Axios.post(`${API}/task/add`, {
+        appointmentName,
+        personName: name,
+        appointmentType,
+        date,
+        time,
       });
+      setAppointmentName("");
+      setName("");
+      setAppointmentType("");
+      setDate(new Date());
+      setTime(new Date(0, 0, 0, 12, 0));
+      formRef.current.focus();
+      cogoToast.info(responseData.data.message);
+    } catch (err) {
+      console.log(err);
+      cogoToast.error("Please retry, Server error");
+    }
   };
 
   useEffect(() => {
@@ -52,10 +57,13 @@ const Form = () => {
 
   return (
     <div>
-      <div className="montserrat grey-10 text-6xl font-semibold">
+      <div className="montserrat grey-10 text-3xl md:text-6xl font-semibold text-center md:text-left mb-5">
         Create a task
       </div>
-      <form onSubmit={handleSubmit} className="flex flex-col">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center md:items-start "
+      >
         <label htmlFor="appointmentName">
           <i className="far fa-calendar-check mr-3"></i>
           <input
@@ -64,7 +72,7 @@ const Form = () => {
             type="text"
             name="appintmentname"
             placeholder="Appintment Name"
-            className="input-task focus:outline-none"
+            className="p-3 pl-0 text-lg bg-transparent border-b-3 border-transparent mx-2 md:w-400 transition focus:outline-none"
             value={appointmentName}
             onChange={(e) => setAppointmentName(e.target.value)}
           ></input>
@@ -76,7 +84,7 @@ const Form = () => {
             type="text"
             name="name"
             placeholder="Your Name"
-            className="input-task focus:outline-none"
+            className="p-3 pl-0 text-lg bg-transparent border-b-3 border-transparent mx-2 md:w-400 transition focus:outline-none"
             value={name}
             onChange={(e) => setName(e.target.value)}
           ></input>
@@ -84,7 +92,7 @@ const Form = () => {
         <label>
           <i className="fas fa-quote-left mr-3"></i>
           <select
-            className={`input-task focus:outline-none ${
+            className={`p-3 pl-0 text-lg bg-transparent border-b-3 border-transparent mx-2 md:w-400 transition focus:outline-none ${
               appointmentType === "" && "text-gray-400"
             }`}
             value={appointmentType}
@@ -93,12 +101,12 @@ const Form = () => {
             <option value="" disabled hidden>
               Appointment Type
             </option>
-            <option value="Fitness">Fitness Coach Appointment</option>
-            <option value="Nutrition">Nutrition Coach Appointment</option>
-            <option value="Doctor">Doctor Appointment</option>
+            <option value={FITNESS}>Fitness Coach Appointment</option>
+            <option value={NUTRITION}>Nutrition Coach Appointment</option>
+            <option value={DOCTOR}>Doctor Appointment</option>
           </select>
         </label>
-        <div className="flex flex-col input-task">
+        <div className="flex flex-col p-3 pl-0 text-lg bg-transparent border-b-3 border-transparent mx-2 md:w-400 transition focus:outline-none">
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               disableToolbar

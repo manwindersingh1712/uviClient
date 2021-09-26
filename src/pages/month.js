@@ -13,24 +13,38 @@ import {
 import moment from "moment";
 
 import { getTasks } from "../assets/utils/index";
+import { AppointmentType } from "../assets/utils/enums";
 import leftCorner from "../assets/images/homepage/l-corner.png";
 import rightCorner from "../assets/images/homepage/r-corner.png";
+import cogoToast from "cogo-toast";
+
+const { ALL, FITNESS, NUTRITION, DOCTOR } = AppointmentType;
 
 const MonthView = () => {
   const [source, setSource] = useState([]);
+  const [appointmentType, setAppointmentType] = useState(ALL);
 
   useEffect(() => {
     retrieveTasks();
-  }, []);
+  }, [appointmentType]);
 
   const retrieveTasks = async () => {
     const allTasks = await getTasks();
+    if (!allTasks) {
+      cogoToast.error("Server error, please refresh");
+      return;
+    }
     const source = allTasks.map((task) => {
-      return !task.completed
+      const isDataSourceAllowed =
+        appointmentType === ALL
+          ? !task.completed
+          : !task.completed && task.appointmentType === appointmentType;
+
+      return isDataSourceAllowed
         ? {
             StartTime: new Date(moment(task.dateAndTime)),
-            EndTime: new Date(moment(task.dateAndTime).add("hour", 0.5)),
-            Subject: task.appointmentName,
+            EndTime: new Date(moment(task.dateAndTime)),
+            Subject: `${task.appointmentName}(${task.appointmentType})`,
           }
         : {};
     });
@@ -39,14 +53,31 @@ const MonthView = () => {
 
   return (
     <div
-      className="bg-white flex flex-col items-center"
-      style={{ height: "calc(100vh - 112px)" }}
+      className="bg-white flex flex-col items-center py-8 md:py-16 px-10 md:px-0"
+      style={{ minHeight: "calc(100vh - 112px)" }}
     >
-      <div className="montserrat grey-10 text-6xl font-semibold my-16">
+      <div className="montserrat grey-10 text-3xl md:text-6xl font-semibold text-center">
         Monthly View
       </div>
 
-      <div className="container mx-auto">
+      <div className="container flex justify-end items-center my-5">
+        <label className="mr-4 hidden md:block" htmlFor="type">
+          Filter :
+        </label>
+        <select
+          id="type"
+          className="p-3 pl-0 text-lg bg-transparent border-b-3 border-transparent mx-2 w-max transition focus:outline-none"
+          value={appointmentType}
+          onChange={(e) => setAppointmentType(e.target.value)}
+        >
+          <option value={ALL}>All</option>
+          <option value={FITNESS}>Fitness Coach Appointment</option>
+          <option value={NUTRITION}>Nutrition Coach Appointment</option>
+          <option value={DOCTOR}>Doctor Appointment</option>
+        </select>
+      </div>
+
+      <div className="relative z-10 container mx-auto montserrat">
         <ScheduleComponent
           currentView="Month"
           selectedDate={Date.now()}

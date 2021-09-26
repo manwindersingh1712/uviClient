@@ -9,6 +9,11 @@ import "react-table-v6/react-table.css";
 import { getTasks } from "../assets/utils/index";
 import leftCorner from "../assets/images/homepage/l-corner.png";
 import rightCorner from "../assets/images/homepage/r-corner.png";
+import { AppointmentStatus, ENV_VARS } from "../assets/utils/enums";
+import cogoToast from "cogo-toast";
+
+const { API } = ENV_VARS;
+const { COMPLETE, PENDING } = AppointmentStatus;
 
 const DayView = () => {
   const [tasks, setTasks] = useState([]);
@@ -71,7 +76,7 @@ const DayView = () => {
           ) : (
             <i className="fas fa-times-circle text-red-600 mr-2"></i>
           )}
-          {props.value ? "Completed" : "Pending"}
+          {props.value ? COMPLETE : PENDING}
         </div>
       ),
     },
@@ -81,24 +86,28 @@ const DayView = () => {
       headerClassName: "font-black montserrat",
       className: "table-column montserrat",
 
-      Cell: (props) => (
-        <button
-          className="w-max bg-grey-10 text-xs text-white font-bold px-6 py-2 montserrat rounded-md hover:bg-red-400"
-          onClick={() => {
-            completeAppointment(props.value);
-          }}
-        >
-          Complete the class
-        </button>
-      ),
+      Cell: (props) => {
+        const appointmentStatus = props.original.completed;
+        return (
+          !appointmentStatus && (
+            <button
+              className="w-max bg-grey-10 text-xs text-white font-bold px-6 py-2 montserrat rounded-md hover:bg-red-400"
+              onClick={() => {
+                completeAppointment(props.value);
+              }}
+            >
+              Click !
+            </button>
+          )
+        );
+      },
     },
   ]);
 
   const completeAppointment = async (id) => {
     try {
-      const responseData = await axios.put(
-        `http://localhost:4000/task/complete/${id}`
-      );
+      const responseData = await axios.put(`${API}/task/complete/${id}`);
+      cogoToast.info(responseData.data.message);
       retrieveData();
     } catch (err) {
       console.log(err);
@@ -106,14 +115,18 @@ const DayView = () => {
   };
 
   const retrieveData = async () => {
-    let data = await getTasks();
-    data = data.filter((task) => {
+    let allTasks = await getTasks();
+    if (!allTasks) {
+      cogoToast.error("Server error, please refresh");
+      return;
+    }
+    allTasks = allTasks.filter((task) => {
       return (
         moment(task.dateAndTime).format("MM-DD-YYYY") ===
         moment().format("MM-DD-YYYY")
       );
     });
-    setTasks(data);
+    setTasks(allTasks);
   };
 
   useEffect(() => {
@@ -122,10 +135,10 @@ const DayView = () => {
 
   return (
     <div
-      className="bg-white flex flex-col items-center"
-      style={{ height: "calc(100vh - 112px)" }}
+      className="bg-white flex flex-col items-center py-8 md:py-16"
+      style={{ minHeight: "calc(100vh - 112px)" }}
     >
-      <div className="montserrat grey-10 text-6xl font-semibold my-16">
+      <div className="montserrat grey-10 text-3xl md:text-6xl font-semibold mb-14 text-center">
         Today's Appointment Details
       </div>
 
