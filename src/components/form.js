@@ -31,13 +31,17 @@ const Form = () => {
     }
 
     try {
-      const responseData = await Axios.post(`${BASE_API}/task/add`, {
-        appointmentName,
-        personName: name,
-        appointmentType,
-        date,
-        time,
-      });
+      const responseData = await Axios.post(
+        `${BASE_API}/task/add`,
+        {
+          appointmentName,
+          personName: name,
+          appointmentType,
+          date,
+          time,
+        },
+        AXIOS_CONFIG
+      );
       setAppointmentName("");
       setName("");
       setAppointmentType("");

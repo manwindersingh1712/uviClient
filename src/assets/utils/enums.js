@@ -13,3 +13,7 @@ export const AppointmentStatus = {
 export const ENV_VARS = {
   BASE_API: "http://142.93.211.126:4000",
 };
+
+export const AXIOS_CONFIG = {
+  headers: { "Access-Control-Allow-Origin": "*" },
+};

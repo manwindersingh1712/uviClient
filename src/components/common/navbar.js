@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 const Navbar = (props) => {
   const { history } = props;
   return (
-    <div className="border-b-2 border-solid border-gray-300 h-28 px-10 md:p-0">
+    <div className="relative z-20 border-b-2 border-solid border-gray-300 h-28 px-10 md:p-0">
       <div className="container mx-auto flex justify-between items-center h-full">
         <div
           className="w-14 md:w-24 py-4 cursor-pointer"
