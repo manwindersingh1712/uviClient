@@ -9,7 +9,7 @@ import {
 import cogoToast from "cogo-toast";
 import Axios from "axios";
 
-import { AppointmentType, ENV_VARS } from "../assets/utils/enums";
+import { AppointmentType, ENV_VARS, AXIOS_CONFIG } from "../assets/utils/enums";
 
 const { BASE_API } = ENV_VARS;
 const { FITNESS, NUTRITION, DOCTOR } = AppointmentType;
