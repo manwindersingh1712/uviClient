@@ -11,7 +11,7 @@ import Axios from "axios";
 
 import { AppointmentType, ENV_VARS } from "../assets/utils/enums";
 
-const { API } = ENV_VARS;
+const { BASE_API } = ENV_VARS;
 const { FITNESS, NUTRITION, DOCTOR } = AppointmentType;
 
 const Form = () => {
@@ -31,7 +31,7 @@ const Form = () => {
     }
 
     try {
-      const responseData = await Axios.post(`${API}/task/add`, {
+      const responseData = await Axios.post(`${BASE_API}/task/add`, {
         appointmentName,
         personName: name,
         appointmentType,

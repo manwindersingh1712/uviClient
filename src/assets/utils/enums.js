@@ -11,5 +11,5 @@ export const AppointmentStatus = {
 };
 
 export const ENV_VARS = {
-  API: process.env.api || "http://localhost:4000",
+  BASE_API: process.env.BASE_API || "http://localhost:4000",
 };

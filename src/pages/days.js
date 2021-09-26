@@ -12,7 +12,7 @@ import rightCorner from "../assets/images/homepage/r-corner.png";
 import { AppointmentStatus, ENV_VARS } from "../assets/utils/enums";
 import cogoToast from "cogo-toast";
 
-const { API } = ENV_VARS;
+const { BASE_API } = ENV_VARS;
 const { COMPLETE, PENDING } = AppointmentStatus;
 
 const DayView = () => {
@@ -106,7 +106,7 @@ const DayView = () => {
 
   const completeAppointment = async (id) => {
     try {
-      const responseData = await axios.put(`${API}/task/complete/${id}`);
+      const responseData = await axios.put(`${BASE_API}/task/complete/${id}`);
       cogoToast.info(responseData.data.message);
       retrieveData();
     } catch (err) {
