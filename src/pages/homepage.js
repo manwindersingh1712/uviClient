@@ -4,15 +4,16 @@ import Form from "../components/form";
 
 const HomePage = () => {
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <div className="container flex flex-col justify-around md:flex-row my-10 md:my-20 mx-auto">
         <div className="relative z-10 w-4/4">
           <Form />
         </div>
-        <div className="relative z-10 w-4/5 md:w-1/3">
+        <div className="relative z-10 w-4/5 md:w-1/3 ml-24 mt-5 md:m-0">
           <MyCarousel />
         </div>
       </div>
+
       <div className="hidden md:block absolute bottom-0 right-0 left-0 z-0 opacity-40">
         <svg
           height="100%"
